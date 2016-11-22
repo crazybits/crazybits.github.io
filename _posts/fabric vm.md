@@ -28,7 +28,6 @@ func (vm *VM) ListImages(context context.Context) error {
 func (vm *VM) BuildChaincodeContainer(spec *pb.ChaincodeSpec) ([]byte, error){
     ...
     err := vm.Client.BuildImage(opts)
-    ...
 }
 ```
 
@@ -42,8 +41,21 @@ type vm interface {
 	Destroy(...) error             //销毁VM
 	GetVMName(...) (string, error) //获取VM名
 }
+
+此方法会被之后分析的`chaincodeSupport`调用，根据接口`VMCReqIntf` 不同实现的do方法调用具体VM的Deploy,Start,Stop,Destory
+func VMCProcess(ctxt context.Context, vmtype string, req VMCReqIntf) (interface{}, error) {
+    ...
+    resp = req.do(ctxt, v)
+    ...
+}
+type VMCReqIntf interface {
+	do(ctxt context.Context, v vm) VMCResp
+	getCCID() ccintf.CCID
+}
+
 ```
-目前具体的实现有  
-`core/container/dockercontroller/dockercontroller.go` 和`core/container/inproccontroller/inproccontroller.go`
+目前VM的具体的实现有以下两种：　 
+`core/container/dockercontroller/dockercontroller.go` 　　
+`core/container/inproccontroller/inproccontroller.go`
 
 
