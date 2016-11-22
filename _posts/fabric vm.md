@@ -7,7 +7,7 @@ fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和
 
 下面简单分析相关代码的用途
 
-#### core/container/vm.go
+### core/container/vm.go
 ```go
 type VM struct{  
     Client *docker.Client //VM本质上是一个docker client  
@@ -31,7 +31,7 @@ func (vm *VM) BuildChaincodeContainer(spec *pb.ChaincodeSpec) ([]byte, error){
 }
 ```
 
-#### core/container/control.go  
+### core/container/control.go  
 则声明的vm的共同函数接口，不同的vm需要实现这些方法
 ```go
 type vm interface {
