@@ -10,19 +10,25 @@ fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和
 #### core/container/vm.go
 ```go
 type VM struct{  
-    Client *docker.Client //VM本质上一个docker client  
+    Client *docker.Client //VM本质上是一个docker client  
 }
 ```
 
 列出现有的image，相当于在宿主发送docker命令`docker images`  
 ```go
 func (vm *VM) ListImages(context context.Context) error {
+    ...
+    imgs, err := vm.Client.ListImages(docker.ListImagesOptions{All: false})
+    ...
 }
 ```
 
-通过chaincode描述结构ChaincodeSpec建立image,相当于在宿主发送docker命令`docker　build`  
+通过chaincode描述结构`ChaincodeSpec`建立image,相当于在宿主发送docker命令`docker　build`  
 ```go
 func (vm *VM) BuildChaincodeContainer(spec *pb.ChaincodeSpec) ([]byte, error){
+    ...
+    err := vm.Client.BuildImage(opts)
+    ...
 }
 ```
 
