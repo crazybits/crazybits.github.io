@@ -2,6 +2,7 @@
 <html>
   <head>
       <meta charset="utf-8" />
+      
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
       <title>crazybit's Blog</title>
@@ -26,9 +27,8 @@
   <a href="/"><i class="fa fa-bold fa-lg"></i><span>crazybit's Blog</span></a>
 </header>
 
-<nav
-    class="wrapper   alwaysshow  ">
-  <ul>
+<nav class="wrapper   alwaysshow  ">
+  <ul style="right:15%">
     <li><a href="/">Home</a></li>
     <li><a href="/all">Posts</a></li>
     <li><a href="/about">About</a></li>
@@ -68,6 +68,31 @@
 		</article>
 
 	
+		<article class="post ">
+			<header>
+				<div class="feature"><span>Featured</span><i class="fa fa-bookmark fa-lg"></i></div>
+	<!--			<h2>
+					 
+				</h2>-->
+				<h1><a href="/2016/11/22/hyperledger-fabric-/">Hyperledger Fabric 虚拟机</a></h1>
+				<span>
+					Posted on <i class="fa fa-clock-o"></i><time datetime="2016-11-22">November 22, 2016</time> by .
+				</span>
+				<div class="excerpt">
+					
+						<h2 id="fabric-">fabric 虚拟机</h2>
+
+<p>Hyperledger最核心的东西是chaincode,而用来运行chaincode的环境则是图灵完备的VM,本文试图通过源码分析来理解fabric的VM设计</p>
+
+<p>fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和docker，但是现在测试和实际运行环境基本都选择用docker。严格来说，目前fabric本身并不实现VM,而是选择现成的VM,比如docker。
+具体的做法通过docker client发送相关的操作到宿主主机的docker server进程上，而docker client则选择（github.com/fsouza/go-dockerclient）</p>
+
+
+					
+				</div>
+			</header>
+		</article>
+	
 
 	<div class="pagination">
     <center>
@@ -96,10 +121,15 @@
    <h2>Featured Posts</h2>
    <ul style="list-style-type: none; margin: 0px;">
    
+       
+   
    </ul>
 
    <h2>Recent Posts</h2>
    <ul style="list-style-type: none; margin: 0px;">
+   
+      
+        <li style="margin-left: -30px;"><a href="/2016/11/22/hyperledger-fabric-/">Hyperledger Fabric 虚拟机 </a></li>
    
    </ul>
 
@@ -114,7 +144,7 @@
 
     
 <footer class=" ">
-        <a href="/">crazybit's Blog</a>. 2014 &bull; <a href="/update/2014/12/17/Why-Public-Domain/">No Rights Reserved.</a>
+        <a href="/">crazybit's Blog</a>. 2016 &bull; No Rights Reserved.
 </footer>
 
   </body>
