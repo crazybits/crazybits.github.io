@@ -23,7 +23,7 @@ func (vm *VM) ListImages(context context.Context) error {
 }
 ```
 
-通过chaincode描述结构`ChaincodeSpec`建立image,相当于在宿主发送docker命令`docker　build`  
+通过chaincode描述结构`ChaincodeSpec`建立image,相当于在宿主主机发送docker命令`docker　build`  
 ```go
 func (vm *VM) BuildChaincodeContainer(spec *pb.ChaincodeSpec) ([]byte, error){
     ...
@@ -54,7 +54,7 @@ type VMCReqIntf interface {
 }
 
 ```
-目前VM的具体的实现有以下两种：　 
+目前VM的具体的实现有以下两种:  
 `core/container/dockercontroller/dockercontroller.go`　　
 `core/container/inproccontroller/inproccontroller.go`
 
