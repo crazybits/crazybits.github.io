@@ -42,7 +42,7 @@ type vm interface {
 	GetVMName(...) (string, error) //获取VM名
 }
 
-此方法会被之后分析的`chaincodeSupport`调用，根据接口`VMCReqIntf` 不同实现的do方法调用具体VM的Deploy,Start,Stop,Destory
+此方法会被之后分析的`chaincodeSupport`调用，根据接口`VMCReqIntf`不同实现的do方法调用具体VM的Deploy,Start,Stop,Destory方法
 func VMCProcess(ctxt context.Context, vmtype string, req VMCReqIntf) (interface{}, error) {
     ...
     resp = req.do(ctxt, v)
@@ -55,7 +55,7 @@ type VMCReqIntf interface {
 
 ```
 目前VM的具体的实现有以下两种：　 
-`core/container/dockercontroller/dockercontroller.go` 　　
+`core/container/dockercontroller/dockercontroller.go`　　
 `core/container/inproccontroller/inproccontroller.go`
 
 
