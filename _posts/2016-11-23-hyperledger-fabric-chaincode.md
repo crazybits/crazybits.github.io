@@ -55,6 +55,7 @@ type ChaincodeStubInterface interface {
 * /core/chaincode/lscc.go 用于管理用户chaincode的生命周期
 * /core/system_chaincode/escc/endorser_onevalidsignature.go 默认的提议背书策略，用于为提议的哈希和提议的读写集合签名。
 * /core/system_chaincode/vscc/validator_onevalidsignature.go 默认的事务验证策略，用于检查事务读写集和背书签名的正确性  
+
 **用户chaincode:**
 /examples目录下已经有许多用户chaincode的sample  
 
