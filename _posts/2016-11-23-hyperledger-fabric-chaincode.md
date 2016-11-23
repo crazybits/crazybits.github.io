@@ -4,7 +4,9 @@ layout: post
 
 上文通过源码分析简单了解Hyberledger faric chaincode的运行环境 VM，本文着重简单分析fabric中最为重要的元素chaincode。
 
-chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个去中心化的链上程序。fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用来初始化区块链的参数，以及用户chaincode需要共同遵守的规则。 
+chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个去中心化的链上程序。  
+
+fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用于管理用户chaincode的生命周期，以及用户chaincode需要共同遵守的规则,如签名及验证. 
 <!--more-->
 chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
 
@@ -25,8 +27,15 @@ type Chaincode interface {
 ```
 
 可在以下路径查看chaincode的具体实现:  
-系统chaincode:/core/system_chaincode  
-用户chaincode:/examples  
+###系统chaincode:  
+####/core/chaincode/lscc.go  
+用于管理用户chaincode的生命周期
+####/core/system_chaincode/escc/endorser_onevalidsignature.go  
+默认的提议背书策略，用于为提议的哈希和提议的读写集合签名。
+####/core/system_chaincode/vscc/validator_onevalidsignature.go  
+默认的事务验证策略，用于检查事务读写集和背书签名的正确性
+###用户chaincode:
+/examples目录下已经有许多用户chaincode的sample  
 
 而用于编写用户chaincode的语言，farbic目前支持三种语言，分别是golang,Java和car。  
 
@@ -56,12 +65,13 @@ type ChaincodeStubInterface interface {
 
 
 
-chaincode运行于VM中，而账本的区块链数据并不在VM里，chaincode对账本的操作通过以下的桥接方式。
+chaincode运行于VM中，而账本的区块链数据并不在VM里，chaincode并非直接在VM中操作账本数据，而是通过宿主主机的Peer进程来操作账本数据，以下是VM中的chaincode与Peer进程通信的桥接方式。
 
 VM{chaincode <-> (shim([stub](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/chaincode.go)<->[handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go)->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go#L152-L181)))} <-> gRPC <-> {([handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go)<->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go#L390-L450))Validator Peer([chaincode_support](https://github.com/hyperledger/fabric/blob/master/core/chaincode/chaincode_support.go))} <-> Ledger
 
-chaincode用以下的消息类型由shim经gRPC与位于同一host的Peer进程通信，分别处于VM的shim和处于host的Peer进程都有一个有限状态机FSM(github.com/looplab/fsm)，双方都通过状态机的状态变化调用各自handler的方法来发送不同的信息进行通信。
+运行于VM的chaincode由shim通过gRPC与位于同一宿主主机的Peer进程通信，分别处于VM的shim和处于宿主主机的Peer进程都有一个有限状态机FSM(github.com/looplab/fsm)，双方都通过状态机的状态变化调用各自handler的方法来发送不同的信息进行通信。
 
+以下则是shim与Peer进程通信的消息格式
 ```go
 message ChaincodeMessage {
     enum Type {
