@@ -26,7 +26,7 @@ type Chaincode interface {
 }
 ```
 
-可在以下路径查看chaincode具体实现.  
+可在以下路径查看chaincode具体实现:  
 系统chaincode:/core/system_chaincode  
 用户chaincode:/examples  
 
@@ -37,7 +37,8 @@ type Chaincode interface {
 ```go
 type ChaincodeStubInterface interface {  
     ...
-	// chaincode只能更新自己的数据，如有权限，也通过调用其它chaincode操作其它chaincode的数据
+	// chaincode只能更新自己的数据，如要操作其它chaincode的数据（有权限的情况下），  
+    // 则需要通过调用目标chaincode的函数
 	InvokeChaincode(chaincodeName string, args [][]byte) ([]byte, error)
 
 	// 获取账本上的k-v数据
