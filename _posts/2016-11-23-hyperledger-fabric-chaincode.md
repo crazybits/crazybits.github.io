@@ -8,7 +8,7 @@ layout: post
 
 chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个区中心化的链上程序。fabric的chaincode分为两种，一是系统chaincode,另一种则是用户chaincode，系统chaincode用来初始化区块链的参数，以及用户chaincode需要共同遵守的规则。 
 <!--more-->
-用户chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。fabric定义了系统chaincode和用户chaincode需要实现的接口
+用于chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
 
 ####/core/shim/interface.go
 
@@ -26,11 +26,11 @@ type Chaincode interface {
 }
 ```
 
-fabric要求系统chaincode和用户chaincode都必须实现以上的接口函数，可在以下路径查看具体的chaincode实现.  
+可在以下路径查看具体的chaincode实现.  
 系统chaincode:/core/system_chaincode  
 用户chaincode:/examples  
 
-用户编写chaincode的语言，farbic目前支持三种语言，分别是golang,Java和car。  
+而用于编写用户chaincode的语言，farbic目前支持三种语言，分别是golang,Java和car。  
 
 以下的`ChaincodeStubInterface`作为参数传入chaincode,为chaincode提供账本的操作接口。  
 
@@ -59,9 +59,9 @@ type ChaincodeStubInterface interface {
 
 chaincode运行于VM中，而账本的区块链数据并不在VM里，chaincode对账本的操作通过以下的桥接方式。
 
-VM(chaincode <-> shim([stub](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/chaincode.go)<->[handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go)->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go#L152-L181)) <-> gRPC <-> ([handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go)<->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go#L390-L450))Validator Peer([chaincode_support](https://github.com/hyperledger/fabric/blob/master/core/chaincode/chaincode_support.go)) <-> Ledger
+VM{chaincode <-> (shim([stub](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/chaincode.go)<->[handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go)->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/shim/handler.go#L152-L181)))} <-> gRPC <-> {([handler](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go)<->[FSM](https://github.com/hyperledger/fabric/blob/master/core/chaincode/handler.go#L390-L450))Validator Peer([chaincode_support](https://github.com/hyperledger/fabric/blob/master/core/chaincode/chaincode_support.go))} <-> Ledger
 
-chaincode用以下的消息类型由shim层经gRPC与位于同一host的Peer进程通信，分别处于VM的shim层和Peer进程都有一个有限状态机FSM(github.com/looplab/fsm)，通过状态机的状态变化调用各自的handler中的方法来发送不同的信息进行通信。
+chaincode用以下的消息类型由shim经gRPC与位于同一host的Peer进程通信，分别处于VM的shim和处于host的Peer进程都有一个有限状态机FSM(github.com/looplab/fsm)，双方都通过状态机的状态变化调用各自handler的方法来发送不同的信息进行通信。
 
 ```go
 message ChaincodeMessage {
@@ -71,7 +71,7 @@ message ChaincodeMessage {
         REGISTERED = 2;
         INIT = 3;
         READY = 4;
-        TRANSACTION = 5;
+        TRANSACTION = 5; v
         COMPLETED = 6;
         ERROR = 7;
         GET_STATE = 8;
