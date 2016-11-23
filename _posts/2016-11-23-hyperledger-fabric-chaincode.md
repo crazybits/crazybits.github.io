@@ -13,7 +13,7 @@ fabric的chaincode分为两种，一是系统chaincode,另一种是用户chainco
 <!--more-->
 chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
 
-####/core/shim/interface.go  
+**/core/shim/interface.go**
 ```go
 type Chaincode interface {
     //当包含chaincode的VM启动后，init函数会被调用，用于将chaincode“安装“到区块链上，  
@@ -51,14 +51,11 @@ type ChaincodeStubInterface interface {
 /core/shim/chaincode.go    实际环境  
 
 可在以下路径查看chaincode的具体实现:  
-###系统chaincode:  
-####/core/chaincode/lscc.go  
-用于管理用户chaincode的生命周期
-####/core/system_chaincode/escc/endorser_onevalidsignature.go  
-默认的提议背书策略，用于为提议的哈希和提议的读写集合签名。
-####/core/system_chaincode/vscc/validator_onevalidsignature.go  
-默认的事务验证策略，用于检查事务读写集和背书签名的正确性
-###用户chaincode:
+**系统chaincode:** 
+* /core/chaincode/lscc.go 用于管理用户chaincode的生命周期
+* /core/system_chaincode/escc/endorser_onevalidsignature.go 默认的提议背书策略，用于为提议的哈希和提议的读写集合签名。
+* /core/system_chaincode/vscc/validator_onevalidsignature.go 默认的事务验证策略，用于检查事务读写集和背书签名的正确性
+**用户chaincode:**
 /examples目录下已经有许多用户chaincode的sample  
 
 ###chaincode如何操作账本数据?
