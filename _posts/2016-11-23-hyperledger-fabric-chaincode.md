@@ -6,18 +6,18 @@ layout: post
 
 上文通过源码分析简单了解Hyberledger faric chaincode的运行环境 VM，本文着重简单分析fabric中最为重要的元素chaincode。
 
-chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个区中心化的链上程序。fabric的chaincode分为两种，一是系统chaincode,另一种则是用户chaincode，系统chaincode用来初始化区块链的参数，以及用户chaincode需要共同遵守的规则。 
+chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个去中心化的链上程序。fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用来初始化区块链的参数，以及用户chaincode需要共同遵守的规则。 
 <!--more-->
-用于chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
+chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
 
-####/core/shim/interface.go
+###/core/shim/interface.go
 
 ```go
 type Chaincode interface {
     //当包含chaincode的VM启动后，init函数会被调用，用于将chaincode“安装“到区块链上，  
     //可初始化只用于此chaincode的数据
 	Init(stub ChaincodeStubInterface) ([]byte, error)
-
+    
 	// Invoke函数用于调用/修改此chaincode的数据并跟新到全局账本中
 	Invoke(stub ChaincodeStubInterface) ([]byte, error)
 
@@ -26,7 +26,7 @@ type Chaincode interface {
 }
 ```
 
-可在以下路径查看具体的chaincode实现.  
+可在以下路径查看chaincode具体实现.  
 系统chaincode:/core/system_chaincode  
 用户chaincode:/examples  
 
