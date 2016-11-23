@@ -13,7 +13,7 @@ fabric的chaincode分为两种，一是系统chaincode,另一种是用户chainco
 <!--more-->
 chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口
 
-###/core/shim/interface.go  
+####/core/shim/interface.go  
 ```go
 type Chaincode interface {
     //当包含chaincode的VM启动后，init函数会被调用，用于将chaincode“安装“到区块链上，  
@@ -61,7 +61,7 @@ type ChaincodeStubInterface interface {
 ###用户chaincode:
 /examples目录下已经有许多用户chaincode的sample  
 
-###chaincode如何操作账本数据
+###chaincode如何操作账本数据?
 
 chaincode运行于VM中，而账本的区块链数据并不在VM里，所以chaincode并非直接在VM中操作账本数据，而是通过宿主主机的Peer进程来操作账本数据，以下则是VM中的chaincode与Peer进程通信的桥接方式。
 
