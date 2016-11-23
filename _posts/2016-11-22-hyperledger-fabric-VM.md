@@ -1,5 +1,7 @@
 ---
 layout: post
+sharing: true
+featured: true
 ---
 
 Hyperledger最核心的东西是chaincode,而用来运行chaincode的环境则是图灵完备的VM,本文试图通过源码分析来理解fabric的VM设计

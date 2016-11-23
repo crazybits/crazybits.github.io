@@ -1,5 +1,7 @@
 ---
 layout: post
+sharing: true
+featured: true
 ---
 
 上文通过源码分析简单了解Hyberledger faric chaincode的运行环境 VM，本文着重简单分析fabric中最为重要的元素chaincode。
