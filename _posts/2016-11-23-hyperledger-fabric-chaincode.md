@@ -26,7 +26,7 @@ type Chaincode interface {
 }
 ```
 
-可在以下路径查看chaincode具体实现:  
+可在以下路径查看chaincode的具体实现:  
 系统chaincode:/core/system_chaincode  
 用户chaincode:/examples  
 
