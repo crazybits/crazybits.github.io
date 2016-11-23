@@ -1,9 +1,5 @@
 ---
 layout: post
-title: "Hyperledger Fabric 虚拟机"
-description: ""
-category: 
-tags: []
 ---
 
 ## fabric 虚拟机 
