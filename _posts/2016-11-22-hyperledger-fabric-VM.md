@@ -2,8 +2,6 @@
 layout: post
 ---
 
-## fabric 虚拟机 
-
 Hyperledger最核心的东西是chaincode,而用来运行chaincode的环境则是图灵完备的VM,本文试图通过源码分析来理解fabric的VM设计
 
 fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和docker，但是现在测试和实际运行环境基本都选择用docker。严格来说，目前fabric本身并不实现VM,而是选择现成的VM,比如docker。

@@ -2,8 +2,6 @@
 layout: post
 ---
 
-## Hyperledger Fabric chaincode
-
 上文通过源码分析简单了解Hyberledger faric chaincode的运行环境 VM，本文着重简单分析fabric中最为重要的元素chaincode。
 
 chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个去中心化的链上程序。fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用来初始化区块链的参数，以及用户chaincode需要共同遵守的规则。 
