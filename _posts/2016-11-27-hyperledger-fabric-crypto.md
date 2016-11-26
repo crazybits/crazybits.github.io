@@ -49,7 +49,7 @@ type BCCSP interface {
 // 密钥接口
 type Key interface {
 
-	// 密钥秘要的
+	// 密钥字节数组
 	Bytes() ([]byte, error)
 
 	// SKI 可简单理解为密钥的ID.
