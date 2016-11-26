@@ -61,6 +61,20 @@ type ChaincodeStubInterface interface {
 **用户chaincode:**
 /examples目录下已经有许多用户chaincode的sample  
 
+**以下是发布chaincode的spec结构体信息**
+```go
+message ChaincodeDeploymentSpec {
+    enum ExecutionEnvironment {
+        DOCKER = 0;  //用户chaincode
+        SYSTEM = 1;   //系统chaincode
+    }
+    ChaincodeSpec chaincodeSpec = 1;
+    google.protobuf.Timestamp effectiveDate = 2;
+    bytes codePackage = 3;
+    ExecutionEnvironment execEnv=  4;
+}
+```
+
 ###chaincode如何操作账本数据?
 
 chaincode运行于VM中，而账本的区块链数据并不在VM里，所以chaincode并非直接在VM中操作账本数据，而是通过宿主主机的Peer进程来操作账本数据，以下则是VM中的chaincode与Peer进程通信的桥接方式。
