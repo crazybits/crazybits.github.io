@@ -8,9 +8,9 @@ featured: true
 
 chaincode作为运行在fabric区块链上的程序，承载了所有的商业逻辑，它类似于ethereum上的DAPP, 一个去中心化的链上程序。  
 
-而用于编写用户chaincode的语言,目前farbic支持三种语言，分别是golang,Java和car。
+而用于编写用户chaincode的语言,目前farbic支持四种语言，分别是golang，Java，NodeJs,和Car
 
-fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用于管理用户chaincode的生命周期，以及用户chaincode需要共同遵守的规则,如签名及验证. 
+fabric的chaincode分为两种，一是系统chaincode,另一种是用户chaincode，系统chaincode用于管理用户chaincode的生命周期，以及用户chaincode需要共同遵守的规则和密码学相关操作,如签名及验证. 
 
 <!--more-->
 chaincode通过自定义逻辑访问/修改账本的数据并将结果返回给用户。以下文件定义了系统chaincode和用户chaincode都需要实现的接口

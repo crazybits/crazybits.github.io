@@ -6,8 +6,8 @@ featured: true
 
 Hyperledger最核心的东西是chaincode,而用来运行chaincode的环境则是图灵完备的VM,本文试图通过源码分析来理解fabric的VM设计
 
-fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和docker，但是现在测试和实际运行环境基本都选择用docker。严格来说，目前fabric本身并不实现VM,而是选择现成的VM,比如docker。
-具体的做法通过docker client发送相关的操作到宿主主机的docker server进程上，而docker client则选择（github.com/fsouza/go-dockerclient）
+fabric从设计上是支持vm的多种实现的，目前可选择的有inproc和docker，inproc用于加载运行系统chaincode,而docker用于加载运行用户chaincode,目前
+fabric本身并不实现VM,而是将用户chaincode运行在现成的VM容器中,比如docker。具体的做法是通过docker client发送相关的操作到宿主主机的docker server进程上，docker client则选择（github.com/fsouza/go-dockerclient）
 
 <!--more-->
 下面简单分析相关代码的用途
