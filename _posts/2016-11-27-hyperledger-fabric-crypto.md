@@ -1,6 +1,5 @@
 ---
 layout: post
-sharing: true
 featured: true
 ---
 本文主要通过源码分析来了解Hyperledger Fabric的密码学模块。

@@ -1,6 +1,5 @@
 ---
 layout: post
-sharing: true
 featured: true
 ---
 
