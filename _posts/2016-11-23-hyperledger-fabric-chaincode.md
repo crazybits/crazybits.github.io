@@ -24,8 +24,6 @@ type Chaincode interface {
 	// Invoke函数用于调用/修改此chaincode的数据并跟新到全局账本中
 	Invoke(stub ChaincodeStubInterface) ([]byte, error)
 
-	// Query函数则用于且只用于读取此中chaincode的账本数据
-	Query(stub ChaincodeStubInterface) ([]byte, error)
 }
 ```
 以下的`ChaincodeStubInterface`作为参数传入chaincode,为chaincode提供账本的操作接口。  
@@ -85,34 +83,32 @@ VM{chaincode <-> (shim([stub](https://github.com/hyperledger/fabric/blob/master/
 以下则是shim与Peer进程通信的消息格式
 ```go
 message ChaincodeMessage {
+
     enum Type {
         UNDEFINED = 0;
         REGISTER = 1;
         REGISTERED = 2;
         INIT = 3;
         READY = 4;
-        TRANSACTION = 5; v
+        TRANSACTION = 5;
         COMPLETED = 6;
         ERROR = 7;
         GET_STATE = 8;
         PUT_STATE = 9;
         DEL_STATE = 10;
         INVOKE_CHAINCODE = 11;
-        INVOKE_QUERY = 12;
         RESPONSE = 13;
-        QUERY = 14;
-        QUERY_COMPLETED = 15;
-        QUERY_ERROR = 16;
-        RANGE_QUERY_STATE = 17;
-        RANGE_QUERY_STATE_NEXT = 18;
-        RANGE_QUERY_STATE_CLOSE = 19;
-        KEEPALIVE = 20;
+        RANGE_QUERY_STATE = 14;
+        RANGE_QUERY_STATE_NEXT = 15;
+        RANGE_QUERY_STATE_CLOSE = 16;
+        KEEPALIVE = 17;
     }
+
     Type type = 1;
     google.protobuf.Timestamp timestamp = 2;
     bytes payload = 3;
     string txid = 4;
-    ChaincodeSecurityContext securityContext = 5;
+
     ChaincodeEvent chaincodeEvent = 6;
 }
 ```
