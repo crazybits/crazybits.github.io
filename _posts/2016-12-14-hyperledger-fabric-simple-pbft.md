@@ -3,8 +3,16 @@ layout: post
 featured: true
 ---
 
-Hyperledger Fabirc拜占庭 共识算法 spbft(simplified Practical Byzantine Fault Tolerance)
+Hyperledger Fabirc拜占庭 共识算法 spbft(simplified Practical Byzantine Fault Tolerance)的基本流程如下：
+客户端向共识节点发出`Request`消息，  
+主节点收到的`Request`消息所占内容大小累计达到一定`batch_size_bytes `或者一定的时间间隔`batch_duration_nsec`后会为其分配View序列号，并向其它共识节点发起`Preprepare`消息
+当共识节点的非主节点收到合法的`Preprepare`消息后将发起`Prepare`消息
+当共识节点收到n-f-1个`Prepare`消息验证合法后将发起`Commit`消息
+当共识节点收到n-f个`Commit`消息后则将信息写入账本并发出`Checkpoint`消息
 
+当共识节点过了`request_timeout_nsec`仍然未收到`Preprepare`消息则发起`ViewChange`消息重选主节点
+当新选出的共识节点主节点收到f-n个`ViewChange`消息后则发起`NewView`消息
+<!--more-->
 ```go
 基本的配置
 message Config {
@@ -19,13 +27,6 @@ message Config {
         // 当共识节点超过request_timeout_nsec未收到PrePrepare消息发起ViewChange消息
         uint64 request_timeout_nsec = 5;
 };
-// 客户端向共识节点发出Request消息，
-// 主节点收到的Request消息达到一定数量或者一定的时间间隔后会为其分配View序列号，并向其它共识节点发起Preprepare消息
-// 当共识节点收到合法的Preprepare消息后将发起Prepare消息
-// 当共识节点收到n-f-1个Prepare消息验证合法后将发起Commit消息
-
-// 当共识节点过了request_timeout_nsec仍然未收到Preprepare消息则发起ViewChange消息重选主节点
-// 当共识节点收到2f+1个ViewChange消息后则发起NewView消息
 message Msg {
         oneof type {
                 Request request = 1;
@@ -69,7 +70,8 @@ message Subject {
         SeqView seq = 1;
         bytes digest = 2;
 };
-
+// pset Prepare消息
+// qset Commit 消息
 message ViewChange {
         uint64 view = 1;
         repeated Subject pset = 2;
